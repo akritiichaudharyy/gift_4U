@@ -212,8 +212,8 @@ font-weight:500;
 
 <body>
 
-<audio id="music" loop>
-<source src="song.mp3">
+<audio id="music" preload="auto" loop>
+  <source src="song.mp3" type="audio/mpeg">
 </audio>
 
 <button class="musicBtn" onclick="toggleMusic()">🎵</button>
@@ -263,6 +263,13 @@ font-weight:500;
 </div>
 
 <script>
+
+  // preload images
+["harsh.jpeg","harsh1.jpeg","harsh2.jpeg","harsh3.jpeg"]
+.forEach(src=>{
+  const img=new Image();
+  img.src=src;
+});
 
 function cuteBurst(){
 for(let i=0;i<20;i++){
@@ -439,4 +446,5 @@ setTimeout(()=>n.remove(),6000);
 </body>
 
 </html>
+
 
