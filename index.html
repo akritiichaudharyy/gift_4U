@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>For My Love 💖</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins,sans-serif;
+}
+
+body{
+height:100vh;
+overflow:hidden;
+color:rgb(196, 37, 37);
+background:linear-gradient(-45deg,#ff9aa2,#ffb7b2,#ffdac1,#e2f0cb,#b5ead7,#ff9aa2);
+background-size:500% 500%;
+animation:bgMove 15s ease infinite;
+}
+
+body::before{
+content:"💗 💖 💕 💘 💞";
+position:absolute;
+font-size:60px;
+opacity:.05;
+width:100%;
+height:100%;
+display:flex;
+justify-content:space-around;
+align-items:center;
+pointer-events:none;
+}
+
+@keyframes bgMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+.screen{
+position:absolute;
+width:100%;
+height:100%;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:25px;
+background:rgba(255,255,255,.18);
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,255,255,.3);
+box-shadow:0 0 40px rgba(255,105,180,.3), inset 0 0 20px rgba(255,255,255,.2);
+transition:all 1s ease;
+}
+
+.hidden{
+opacity:0;
+pointer-events:none;
+transform:scale(.95);
+}
+
+h1,h2{
+animation:heartbeat 1.6s infinite;
+text-shadow:0 0 12px #fff;
+}
+
+@keyframes heartbeat{
+0%{transform:scale(1);}
+25%{transform:scale(1.05);}
+40%{transform:scale(.98);}
+60%{transform:scale(1.06);}
+100%{transform:scale(1);}
+}
+
+button{
+padding:14px 30px;
+border:none;
+border-radius:40px;
+font-size:17px;
+cursor:pointer;
+margin:10px;
+background:linear-gradient(45deg,#ff6f91,#ff9671);
+color:rgb(201, 48, 48);
+box-shadow:0 0 15px rgba(255,105,180,.5);
+transition:all .3s ease;
+}
+
+button:hover{
+transform:scale(1.12);
+box-shadow:0 0 25px #ff6f91;
+}
+
+.musicBtn{
+position:fixed;
+bottom:15px;
+right:15px;
+border-radius:50%;
+padding:12px;
+font-size:22px;
+background:rgba(255,255,255,.3);
+backdrop-filter:blur(10px);
+}
+
+.heart,.spark,.note{
+position:absolute;
+pointer-events:none;
+}
+
+.heart{
+font-size:22px;
+filter:drop-shadow(0 0 10px pink);
+animation:fall linear forwards;
+}
+
+.spark{
+width:7px;
+height:7px;
+background:white;
+border-radius:50%;
+box-shadow:0 0 12px white;
+animation:fall linear forwards;
+}
+
+.note{
+font-size:18px;
+animation:floatUp 6s linear forwards;
+}
+
+@keyframes fall{
+to{transform:translateY(110vh);opacity:0;}
+}
+
+@keyframes floatUp{
+to{transform:translateY(-120vh);opacity:0;}
+}
+
+img{
+width:260px;
+max-width:85vw;
+border-radius:25px;
+border:3px solid rgba(255,255,255,.4);
+box-shadow:0 0 35px rgba(255,105,180,.7);
+transition:opacity 1s, transform .5s;
+}
+
+img:hover{transform:scale(1.05);}
+
+.fire{
+position:absolute;
+width:7px;height:7px;
+border-radius:50%;
+background:white;
+box-shadow:0 0 15px white;
+animation:boom 1s forwards;
+}
+
+@keyframes boom{
+to{transform:translate(var(--x),var(--y));opacity:0;}
+}
+
+#envelope{
+font-size:95px;
+cursor:pointer;
+animation:pulse 2s infinite;
+filter:drop-shadow(0 0 20px pink);
+transition:.4s;
+}
+
+#envelope:hover{
+transform:scale(1.2) rotate(-5deg);
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.1);}
+100%{transform:scale(1);}
+}
+
+#letterPaper{
+background:linear-gradient(135deg,#fff,#ffe6f0);
+color:#ff4d6d;
+padding:22px;
+border-radius:18px;
+max-width:420px;
+width:92%;
+box-shadow:0 0 35px rgba(255,105,180,.6);
+opacity:0;
+transform:translateY(40px);
+transition:.6s ease;
+}
+
+#letterPaper.show{
+opacity:1;
+transform:translateY(0);
+}
+
+p{
+max-width:90%;
+line-height:1.6;
+margin:15px 0;
+font-weight:500;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+<source src="/Die With A Smile Song Ringtone Download - MobCup.Com.Co.mp3">
+</audio>
+
+<button class="musicBtn" onclick="toggleMusic()">🎵</button>
+
+<div id="intro" class="screen">
+<h1>Happy Valentine’s Day 💖</h1>
+<button onclick="start()">Enter Love World</button>
+</div>
+
+<div id="countdown" class="screen hidden">
+<h1 id="count">3</h1>
+</div>
+
+<div id="letterScreen" class="screen hidden">
+<h2>For You ❤️</h2>
+<p id="typed"></p>
+<button onclick="toSlide()">Memories →</button>
+<button onclick="restartText()">Replay Message</button>
+</div>
+
+<div id="slideshow" class="screen hidden">
+<h2>Our Memories 💕</h2>
+<img id="slide" src="/harsh.jpeg">
+<button onclick="toEnvelope()">Love Letter 💌</button>
+</div>
+
+<div id="envelopeScreen" class="screen hidden">
+<h2>Open Your Love Letter 💖</h2>
+<div id="envelope" onclick="openEnvelope()">💌</div>
+
+<div id="letterPaper">
+<p id="letterText"></p>
+<button onclick="closeEnvelope()">Close Letter</button>
+<button onclick="proposal()">Next Surprise →</button>
+</div>
+</div>
+
+<div id="proposalScreen" class="screen hidden">
+<h2>Will You Be Mine Forever? 💘</h2>
+<button onclick="celebrate()">YES ❤️</button>
+<button id="noBtn" onmouseover="escapeNo()">No 😝</button>
+</div>
+
+<div id="celebrateScreen" class="screen hidden">
+<h1>I LOVE YOU 💖</h1>
+<button onclick="location.reload()">Replay Experience</button>
+</div>
+
+<script>
+
+function cuteBurst(){
+for(let i=0;i<20;i++){
+let h=document.createElement("div");
+h.className="note";
+h.innerHTML=["💖","💕","✨","💗"][Math.floor(Math.random()*4)];
+h.style.left=Math.random()*100+"vw";
+h.style.bottom="-20px";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),5000);
+}
+}
+
+function spawn(){
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="❤";
+h.style.left=Math.random()*100+"vw";
+h.style.animationDuration=(Math.random()*4+3)+"s";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),7000);
+
+let s=document.createElement("div");
+s.className="spark";
+s.style.left=Math.random()*100+"vw";
+s.style.animationDuration=(Math.random()*5+4)+"s";
+document.body.appendChild(s);
+setTimeout(()=>s.remove(),9000);
+}
+setInterval(spawn,250);
+
+function switchScreen(a,b){
+document.getElementById(a).classList.add("hidden");
+document.getElementById(b).classList.remove("hidden");
+cuteBurst();
+}
+
+let music=document.getElementById("music");
+
+function toggleMusic(){
+music.paused?music.play():music.pause();
+}
+
+function start(){
+music.play();
+switchScreen("intro","countdown");
+
+let c=3;
+let timer=setInterval(()=>{
+c--;
+document.getElementById("count").innerText=c;
+
+if(c===0){
+clearInterval(timer);
+switchScreen("countdown","letterScreen");
+typeText();
+}
+},1000);
+}
+
+let msg="You are my favorite person in the universe. Every moment with you feels magical. Thank you for being my happiness, my comfort, and my forever love. ❤️";
+let i=0;
+
+function typeText(){
+let el=document.getElementById("typed");
+let timer=setInterval(()=>{
+el.innerHTML+=msg[i];
+i++;
+if(i>=msg.length)clearInterval(timer);
+},35);
+}
+
+function restartText(){
+i=0;
+document.getElementById("typed").innerHTML="";
+typeText();
+}
+
+let pics=["/harsh1.jpeg","/harsh2.jpeg","/harsh3.jpeg"];
+let p=0;
+
+function toSlide(){
+switchScreen("letterScreen","slideshow");
+
+setInterval(()=>{
+let img=document.getElementById("slide");
+img.style.opacity=0;
+
+setTimeout(()=>{
+p=(p+1)%pics.length;
+img.src=pics[p];
+img.style.opacity=1;
+img.style.transform="scale(1.1)";
+setTimeout(()=>img.style.transform="scale(1)",300);
+},500);
+
+},3000);
+}
+
+function toEnvelope(){
+switchScreen("slideshow","envelopeScreen");
+}
+
+let letterMsg="My love… ❤️ Every moment with you is magic. You are my comfort, my happiness, and my forever. I love you endlessly.";
+let li=0;
+
+function openEnvelope(){
+
+document.getElementById("letterPaper").classList.add("show");
+document.getElementById("letterText").innerHTML="";
+li=0;
+
+let typer=setInterval(()=>{
+document.getElementById("letterText").innerHTML+=letterMsg[li];
+li++;
+if(li>=letterMsg.length)clearInterval(typer);
+},35);
+
+for(let i=0;i<15;i++){
+let n=document.createElement("div");
+n.className="note";
+n.innerHTML="💖";
+n.style.left=Math.random()*100+"vw";
+n.style.bottom="0";
+document.body.appendChild(n);
+setTimeout(()=>n.remove(),5000);
+}
+}
+
+function closeEnvelope(){
+document.getElementById("letterPaper").classList.remove("show");
+}
+
+function proposal(){
+switchScreen("envelopeScreen","proposalScreen");
+}
+
+function escapeNo(){
+let b=document.getElementById("noBtn");
+b.style.position="absolute";
+b.style.left=Math.random()*80+"%";
+b.style.top=Math.random()*80+"%";
+}
+
+function celebrate(){
+switchScreen("proposalScreen","celebrateScreen");
+
+for(let i=0;i<120;i++){
+let f=document.createElement("div");
+f.className="fire";
+f.style.left="50%";
+f.style.top="50%";
+f.style.setProperty("--x",(Math.random()*600-300)+"px");
+f.style.setProperty("--y",(Math.random()*600-300)+"px");
+document.body.appendChild(f);
+setTimeout(()=>f.remove(),1000);
+}
+
+let words=["Love","Forever","Mine","Always","Us","💕"];
+
+for(let i=0;i<25;i++){
+let n=document.createElement("div");
+n.className="note";
+n.innerHTML=words[Math.floor(Math.random()*words.length)];
+n.style.left=Math.random()*100+"vw";
+n.style.bottom="-20px";
+document.body.appendChild(n);
+setTimeout(()=>n.remove(),6000);
+}
+}
+
+</script>
+
+</body>
+</html>
